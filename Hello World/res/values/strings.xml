@@ -1,9 +1,9 @@
 <resources>
 
     <string name="app_name">Hello World</string>
-    <string name="hello_world">\tHello Ricardo!
-        				   \n\nHello Woooooorld!</string>
+    <string name="edit_message">Hello Ricardo!</string>
+    <string name="button_send">Send</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">Ricardo\'s first app</string>
+    <string name="title_activity_main">Ricardo\'s First App</string>
 
 </resources>
