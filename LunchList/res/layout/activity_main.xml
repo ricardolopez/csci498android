@@ -1,70 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:stretchColumns="1" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroller"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical" >
 
-    <TableRow>
-        <TextView android:text="@string/name" />
-        <EditText android:id="@+id/name" />
-        
-    </TableRow>
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1" >
 
-    <TableRow>
-        <TextView android:text="@string/address" />
-        <EditText android:id="@+id/addr" />
-        
-    </TableRow>
+        <TableRow>
+            <TextView android:text="@string/name" />
+            <EditText android:id="@+id/name" />
+            
+        </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-        
-	</TableRow>
+        <TableRow>
+            <TextView android:text="@string/address" />
+            <EditText android:id="@+id/addr" />
+            
+        </TableRow>
 
-    <TableRow
-        android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textView1"
+        <TableRow
+            android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type" />
+            android:layout_height="wrap_content" >
+            
+        </TableRow>
 
-        <RadioGroup
-            android:id="@+id/types"
+        <TableRow
+            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <RadioButton
-                android:id="@+id/take_out"
+            <TextView
+                android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/take_out" />
+                android:text="@string/type" />
 
-            <RadioButton
-                android:id="@+id/sit_down"
+            <RadioGroup
+                android:id="@+id/types"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sit_down" />
+                android:layout_height="wrap_content" >
+                
+            </RadioGroup>
+            
+        </TableRow>
 
-            <RadioButton
-                android:id="@+id/delivery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delivery" />
-        </RadioGroup>
-
-    </TableRow>
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save" />
-
-</TableLayout>
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save" />
+        
+    </TableLayout>
+    
+</ScrollView>
