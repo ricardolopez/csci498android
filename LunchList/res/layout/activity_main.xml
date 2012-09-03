@@ -1,59 +1,56 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    >
 
     <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        >
 
         <TextView
-            android:id="@+id/textView1"
             android:layout_width="wrap_content"
-            android:layout_height="43dp"
-            android:layout_weight="0.08"
-            android:text="Name:" />
+            android:layout_height="wrap_content"
+            android:typeface="normal"
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:typeface="normal"
+            android:inputType="text"/>
     </LinearLayout>
     
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="4dp" >
-        
+        >
+
         <TextView
-        	android:id="@+id/textView2"
-        	android:layout_width="wrap_content"
-        	android:layout_height="43dp"
-        	android:layout_marginTop="0.08dp"
-        	android:text="Address:" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:typeface="sans"
+            android:text="@string/address" />
 
-    	<EditText
-    	    android:id="@+id/addr"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:ems="10" >
-
-    	</EditText>
+        <EditText
+            android:id="@+id/addr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:typeface="sans"
+            android:inputType="text"
+            />
     </LinearLayout>
-
+    
     <Button
         android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_marginTop="4dp"
-        android:text="Save" />
+        android:typeface="serif"
+        android:text="@string/save" />
 
-</RelativeLayout>
+</LinearLayout>
