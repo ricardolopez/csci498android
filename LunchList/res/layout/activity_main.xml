@@ -19,12 +19,11 @@
 
         <TableRow>
             <TextView android:text="@string/address" />
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/addr"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:completionThreshold="1" 
-                ></AutoCompleteTextView>
+                ></EditText>
             
         </TableRow>
 
@@ -48,7 +47,7 @@
             android:text="@string/save" />
         
     </TableLayout>
-    <Spinner 
+    <ListView 
         android:id="@+id/restaurants"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
