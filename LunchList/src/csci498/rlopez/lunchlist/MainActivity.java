@@ -132,6 +132,16 @@ public class MainActivity extends Activity {
     		
     		return(row);
     	}
+    	
+    	/*@Override
+    	public int getViewTypeCount() {
+    	    return model.size() < 3 ? model.size() : model.size() % 3;
+    	}
+
+    	@Override
+    	public int getItemViewType(int position) {
+    	    return position % 3;
+    	}*/
     }
     
     static class RestaurantHolder {
