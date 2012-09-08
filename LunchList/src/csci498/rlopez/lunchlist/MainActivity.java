@@ -29,6 +29,7 @@ public class MainActivity extends TabActivity {
 	RestaurantAdapter adapter = null;
 	EditText name = null;
 	EditText address = null;
+	EditText date = null;
 	RadioGroup types = null;
 
     @Override
@@ -37,6 +38,7 @@ public class MainActivity extends TabActivity {
         setContentView(R.layout.activity_main);
         name = (EditText)findViewById(R.id.name);
         address = (EditText)findViewById(R.id.addr);
+        date = (EditText)findViewById(R.id.date);
         types = (RadioGroup)findViewById(R.id.types);
         
         //RadioGroup types = (RadioGroup)findViewById(R.id.types);
@@ -73,9 +75,11 @@ public class MainActivity extends TabActivity {
 			Restaurant r = new Restaurant();
 			EditText name = (EditText)findViewById(R.id.name);
 			EditText address = (EditText)findViewById(R.id.addr);
+			EditText date = (EditText)findViewById(R.id.date);
 			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
+			r.setDate(date.getText().toString());
 			
 			RadioGroup types = (RadioGroup)findViewById(R.id.types);
 			setDeliveryType(types.getCheckedRadioButtonId(), r);
@@ -87,17 +91,17 @@ public class MainActivity extends TabActivity {
 		RadioButton sit_down = new RadioButton(this);
 		RadioButton take_out = new RadioButton(this);
 		RadioButton delivery = new RadioButton(this);
-		RadioButton one = new RadioButton(this);
-		RadioButton two = new RadioButton(this);
-		RadioButton three = new RadioButton(this);
-		RadioButton four = new RadioButton(this);
+		//RadioButton one = new RadioButton(this);
+		//RadioButton two = new RadioButton(this);
+		//RadioButton three = new RadioButton(this);
+		//RadioButton four = new RadioButton(this);
 		
 		sit_down.setText("Sit-Down");
-		sit_down.setId(0);
+		sit_down.setId(R.id.sit_down);
 		take_out.setText("Take-Out");
-		take_out.setId(1);
+		take_out.setId(R.id.take_out);
 		delivery.setText("Delivery");
-		delivery.setId(2);
+		delivery.setId(R.id.delivery);
 		//one.setText("One");
 		//two.setText("Two");
 		//three.setText("Three");
@@ -171,17 +175,20 @@ public class MainActivity extends TabActivity {
     static class RestaurantHolder {
     	private TextView name = null;
     	private TextView address = null;
+    	private TextView date = null;
     	private ImageView icon = null;
     	
     	RestaurantHolder(View row) {
     		name = (TextView)row.findViewById(R.id.title);
     		address = (TextView)row.findViewById(R.id.address);
+    		date = (TextView)row.findViewById(R.id.date);
     		icon = (ImageView)row.findViewById(R.id.icon);
     	}
     	
     	void populateFrom(Restaurant r) {
     		name.setText(r.getName());
     		address.setText(r.getAddress());
+    		date.setText(r.getDate());
 
     		if (r.getType().equals("sit_down")) {
     			icon.setImageResource(R.drawable.ball_red);
@@ -205,6 +212,7 @@ public class MainActivity extends TabActivity {
     		
     		name.setText(r.getName());
     		address.setText(r.getAddress());
+    		date.setText(r.getDate());
     		
     		if (r.getType().equals("sit_down")) {
     			types.check(R.id.sit_down);

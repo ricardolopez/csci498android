@@ -33,18 +33,19 @@
                 android:stretchColumns="1" >
 
                 <TableRow>
-
                     <TextView android:text="@string/name" />
-
                     <EditText android:id="@+id/name" />
                 </TableRow>
 
                 <TableRow>
-
                     <TextView android:text="@string/address" />
-
                     <EditText
-                        android:id="@+id/addr"
+                        android:id="@+id/addr" />
+                </TableRow>
+                
+                <TableRow>
+                    <TextView android:text="Date Visited:" />
+                    <EditText android:id="@+id/date" 
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" >
                     </EditText>
