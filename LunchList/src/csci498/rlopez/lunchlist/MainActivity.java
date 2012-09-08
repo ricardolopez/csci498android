@@ -23,14 +23,16 @@ import android.widget.RadioGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView;
+import android.widget.ViewFlipper;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends Activity {
 	List<Restaurant> model = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter = null;
 	EditText name = null;
 	EditText address = null;
 	EditText date = null;
 	RadioGroup types = null;
+	ViewFlipper flip;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,27 +49,34 @@ public class MainActivity extends TabActivity {
         Button save = (Button)findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
+        Button button = (Button)findViewById(R.id.flip);
+        flip = (ViewFlipper)findViewById(R.id.view_flipper);
+        
         ListView list = (ListView)findViewById(R.id.restaurants);
         adapter = new RestaurantAdapter();
         list.setAdapter(adapter);
         list.setOnItemClickListener(onListClick);
         
-        TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
-        
-        spec.setContent(R.id.restaurants);
-        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-        
-        getTabHost().addTab(spec);
-        
-        spec=getTabHost().newTabSpec("tag2");
-        spec.setContent(R.id.details);
-        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-        
-        getTabHost().addTab(spec);
-        getTabHost().setCurrentTab(0);
+//        TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
+//        
+//        spec.setContent(R.id.restaurants);
+//        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+//        
+//        getTabHost().addTab(spec);
+//        
+//        spec=getTabHost().newTabSpec("tag2");
+//        spec.setContent(R.id.details);
+//        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+//        
+//        getTabHost().addTab(spec);
+//        getTabHost().setCurrentTab(0);
         
         //AutoCompleteTextView autoComplete = (AutoCompleteTextView)findViewById(R.id.addr);
     	//autoComplete.setAdapter(adapter);
+    }
+    
+    public void ClickHandler(View v) {
+    	flip.showNext();
     }
     
     private View.OnClickListener onSave = new View.OnClickListener() {
@@ -86,7 +95,7 @@ public class MainActivity extends TabActivity {
 			adapter.add(r);
 		}
 	};
-
+	
 	private void addTypeButtons(RadioGroup types) {
 		RadioButton sit_down = new RadioButton(this);
 		RadioButton take_out = new RadioButton(this);
@@ -222,7 +231,7 @@ public class MainActivity extends TabActivity {
     			types.check(R.id.delivery);
     		}
     		
-    		getTabHost().setCurrentTab(1);
+    		//getTabHost().setCurrentTab(1);
     	}
 	};
 }
