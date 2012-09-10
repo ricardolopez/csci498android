@@ -1,4 +1,4 @@
-//COMPLETE APT 6 and reading BCG by FRIDAY
+
 
 package csci498.rlopez.lunchlist;
 
@@ -11,6 +11,7 @@ import android.app.TabActivity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,14 +26,15 @@ import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ViewFlipper;
 
-public class MainActivity extends Activity {
+public class MainActivity extends TabActivity {
 	List<Restaurant> model = new ArrayList<Restaurant>();
 	RestaurantAdapter adapter = null;
 	EditText name = null;
 	EditText address = null;
-	EditText date = null;
+	//EditText date = null;
+	EditText notes = null;
 	RadioGroup types = null;
-	ViewFlipper flip;
+	//ViewFlipper flip;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         name = (EditText)findViewById(R.id.name);
         address = (EditText)findViewById(R.id.addr);
-        date = (EditText)findViewById(R.id.date);
+        //date = (EditText)findViewById(R.id.date);
+        notes = (EditText)findViewById(R.id.notes);
         types = (RadioGroup)findViewById(R.id.types);
         
         //RadioGroup types = (RadioGroup)findViewById(R.id.types);
@@ -49,46 +52,48 @@ public class MainActivity extends Activity {
         Button save = (Button)findViewById(R.id.save);
         save.setOnClickListener(onSave);
         
-        Button button = (Button)findViewById(R.id.flip);
-        flip = (ViewFlipper)findViewById(R.id.view_flipper);
+        //Button button = (Button)findViewById(R.id.flip);
+        //flip = (ViewFlipper)findViewById(R.id.view_flipper);
         
         ListView list = (ListView)findViewById(R.id.restaurants);
         adapter = new RestaurantAdapter();
         list.setAdapter(adapter);
         list.setOnItemClickListener(onListClick);
         
-//        TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
-//        
-//        spec.setContent(R.id.restaurants);
-//        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-//        
-//        getTabHost().addTab(spec);
-//        
-//        spec=getTabHost().newTabSpec("tag2");
-//        spec.setContent(R.id.details);
-//        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-//        
-//        getTabHost().addTab(spec);
-//        getTabHost().setCurrentTab(0);
+        TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
+        
+        spec.setContent(R.id.restaurants);
+        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
+        
+        getTabHost().addTab(spec);
+        
+        spec=getTabHost().newTabSpec("tag2");
+        spec.setContent(R.id.details);
+        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
+        
+        getTabHost().addTab(spec);
+        getTabHost().setCurrentTab(0);
         
         //AutoCompleteTextView autoComplete = (AutoCompleteTextView)findViewById(R.id.addr);
     	//autoComplete.setAdapter(adapter);
     }
     
-    public void ClickHandler(View v) {
-    	flip.showNext();
-    }
+    //public void ClickHandler(View v) {
+    //	flip.showNext();
+    //}
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
 			Restaurant r = new Restaurant();
 			EditText name = (EditText)findViewById(R.id.name);
 			EditText address = (EditText)findViewById(R.id.addr);
-			EditText date = (EditText)findViewById(R.id.date);
+			EditText notes = (EditText)findViewById(R.id.notes);
+			//EditText date = (EditText)findViewById(R.id.date);
 			
 			r.setName(name.getText().toString());
 			r.setAddress(address.getText().toString());
-			r.setDate(date.getText().toString());
+			r.setNotes(notes.getText().toString());
+			//r.setDate(date.getText().toString());
 			
 			RadioGroup types = (RadioGroup)findViewById(R.id.types);
 			setDeliveryType(types.getCheckedRadioButtonId(), r);
@@ -141,10 +146,17 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+    //    getMenuInflater().inflate(R.menu.activity_main, menu);
+    //    return true;
+    //}
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+    	new MenuInflater(this).inflate(R.menu.option, menu);
+    	
+    	return(super.onCreateOptionsMenu(menu));
     }
     
     class RestaurantAdapter extends ArrayAdapter<Restaurant> {
@@ -184,20 +196,20 @@ public class MainActivity extends Activity {
     static class RestaurantHolder {
     	private TextView name = null;
     	private TextView address = null;
-    	private TextView date = null;
+    	//private TextView date = null;
     	private ImageView icon = null;
     	
     	RestaurantHolder(View row) {
     		name = (TextView)row.findViewById(R.id.title);
     		address = (TextView)row.findViewById(R.id.address);
-    		date = (TextView)row.findViewById(R.id.date);
+    		//date = (TextView)row.findViewById(R.id.date);
     		icon = (ImageView)row.findViewById(R.id.icon);
     	}
     	
     	void populateFrom(Restaurant r) {
     		name.setText(r.getName());
     		address.setText(r.getAddress());
-    		date.setText(r.getDate());
+    		//date.setText(r.getDate());
 
     		if (r.getType().equals("sit_down")) {
     			icon.setImageResource(R.drawable.ball_red);
@@ -221,7 +233,8 @@ public class MainActivity extends Activity {
     		
     		name.setText(r.getName());
     		address.setText(r.getAddress());
-    		date.setText(r.getDate());
+    		notes.setText(r.getNotes());
+    		//date.setText(r.getDate());
     		
     		if (r.getType().equals("sit_down")) {
     			types.check(R.id.sit_down);
@@ -231,7 +244,8 @@ public class MainActivity extends Activity {
     			types.check(R.id.delivery);
     		}
     		
-    		//getTabHost().setCurrentTab(1);
+    		getTabHost().setCurrentTab(1);
     	}
 	};
+	
 }

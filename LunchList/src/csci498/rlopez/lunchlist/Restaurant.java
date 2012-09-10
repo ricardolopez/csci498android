@@ -4,7 +4,8 @@ public class Restaurant {
 	private String name = "";
 	private String address = "";
 	private String type = "";
-	private String date = "";
+	//private String date = "";
+	private String notes = "";
 	
 	public String getName() {
 		return(name);
@@ -22,20 +23,28 @@ public class Restaurant {
 		this.address = address;
 	}
 	
-	public String getType(){
+	public String getType() {
 		return(type);
 	}
 	
-	public void setType(String type){
+	public void setType(String type) {
 		this.type = type;
 	}
 	
-	public String getDate(){
-		return(date);
+	//public String getDate(){
+	//	return(date);
+	//}
+	
+	//public void setDate(String date){
+	//	this.date = date;
+	//}
+	
+	public String getNotes() {
+		return(notes);
 	}
 	
-	public void setDate(String date){
-		this.date = date;
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	
 	public String toString() {

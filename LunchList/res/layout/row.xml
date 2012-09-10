@@ -21,8 +21,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:textStyle="bold" 
+                />
             
             <TextView
                 android:id="@+id/address"
@@ -31,21 +31,15 @@
                 android:layout_gravity="center_vertical"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="TextView" />
+                 />
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:text="TextView" />
+<!--             <TextView -->
+<!--                 android:id="@+id/date" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:maxLines="1" -->
+<!--                 android:ellipsize="end" -->
+<!--                 /> -->
 
         </LinearLayout>
-        
-        <Button android:id="@+id/flip"
-            android:layout_width="match_parent"
-            android:onClick="ClickHandler"
-            android:text="Flip!" />
-
     </LinearLayout>
