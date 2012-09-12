@@ -242,6 +242,7 @@ public class MainActivity extends TabActivity {
 			
 			runOnUiThread(new Runnable() {
 				public void run() {
+					Toast.makeText(MainActivity.this, "DONE!", Toast.LENGTH_SHORT).show();
 					setProgressBarVisibility(false);
 				}
 			});
