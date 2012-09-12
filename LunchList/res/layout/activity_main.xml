@@ -49,17 +49,6 @@
                     <EditText android:id="@+id/addr" />
                 </TableRow>
 
-<!--                 <TableRow> -->
-
-<!--                     <TextView android:text="Date Visited:" /> -->
-
-<!--                     <EditText -->
-<!--                         android:id="@+id/date" -->
-<!--                         android:layout_width="fill_parent" -->
-<!--                         android:layout_height="wrap_content" > -->
-<!--                     </EditText> -->
-<!--                 </TableRow> -->
-
                 <TableRow>
 
                     <TextView android:text="@string/type" />

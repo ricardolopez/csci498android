@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.app.Activity;
 import android.app.TabActivity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 import android.view.MenuInflater;
 import android.view.View;
@@ -30,33 +32,26 @@ import android.widget.ViewFlipper;
 
 public class MainActivity extends TabActivity {
 	List<Restaurant> model = new ArrayList<Restaurant>();
-	RestaurantAdapter adapter = null;
-	EditText name = null;
-	EditText address = null;
-	//EditText date = null;
-	EditText notes = null;
-	Restaurant current = null;
-	RadioGroup types = null;
-	//ViewFlipper flip;
+	RestaurantAdapter adapter;
+	EditText name;
+	EditText address;
+	EditText notes;
+	Restaurant current;
+	RadioGroup types;
+	int progress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
         name = (EditText)findViewById(R.id.name);
         address = (EditText)findViewById(R.id.addr);
-        //date = (EditText)findViewById(R.id.date);
         notes = (EditText)findViewById(R.id.notes);
         types = (RadioGroup)findViewById(R.id.types);
         
-        //RadioGroup types = (RadioGroup)findViewById(R.id.types);
-        //addTypeButtons(types);
-        
         Button save = (Button)findViewById(R.id.save);
         save.setOnClickListener(onSave);
-        
-        //Button button = (Button)findViewById(R.id.flip);
-        //flip = (ViewFlipper)findViewById(R.id.view_flipper);
         
         ListView list = (ListView)findViewById(R.id.restaurants);
         adapter = new RestaurantAdapter();
@@ -64,10 +59,8 @@ public class MainActivity extends TabActivity {
         list.setOnItemClickListener(onListClick);
         
         TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
-        
         spec.setContent(R.id.restaurants);
         spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-        
         getTabHost().addTab(spec);
         
         spec=getTabHost().newTabSpec("tag2");
@@ -77,8 +70,6 @@ public class MainActivity extends TabActivity {
         getTabHost().addTab(spec);
         getTabHost().setCurrentTab(0);
         
-        //AutoCompleteTextView autoComplete = (AutoCompleteTextView)findViewById(R.id.addr);
-    	//autoComplete.setAdapter(adapter);
     }
     
     @Override
@@ -91,33 +82,34 @@ public class MainActivity extends TabActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
     	if (item.getItemId() == R.id.toast) {
     		String message="No restaurant selected";
+    		
     		if (current != null) {
     			message = current.getNotes();
     		}
+    		
     		Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    		
+    		return(true);
+    		
+    	} else if (item.getItemId() == R.id.run){
+    		setProgressBarVisibility(true);
+    		progress = 0;
+    		
+    		new Thread(longTask).start();
+    		
     		return(true);
     	}
+    	
     	return(super.onOptionsItemSelected(item));
     }
-    
-    //public void ClickHandler(View v) {
-    //	flip.showNext();
-    //}
     
     private View.OnClickListener onSave = new View.OnClickListener() {
 		public void onClick(View v) {
 			current = new Restaurant();
-			//EditText name = (EditText)findViewById(R.id.name);
-			//EditText address = (EditText)findViewById(R.id.addr);
-			//EditText notes = (EditText)findViewById(R.id.notes);
-			//EditText date = (EditText)findViewById(R.id.date);
-			
 			current.setName(name.getText().toString());
 			current.setAddress(address.getText().toString());
 			current.setNotes(notes.getText().toString());
-			//r.setDate(date.getText().toString());
 			
-			//RadioGroup types = (RadioGroup)findViewById(R.id.types);
 			setDeliveryType(types.getCheckedRadioButtonId(), current);
 			adapter.add(current);
 		}
@@ -127,10 +119,6 @@ public class MainActivity extends TabActivity {
 		RadioButton sit_down = new RadioButton(this);
 		RadioButton take_out = new RadioButton(this);
 		RadioButton delivery = new RadioButton(this);
-		//RadioButton one = new RadioButton(this);
-		//RadioButton two = new RadioButton(this);
-		//RadioButton three = new RadioButton(this);
-		//RadioButton four = new RadioButton(this);
 		
 		sit_down.setText("Sit-Down");
 		sit_down.setId(R.id.sit_down);
@@ -138,18 +126,10 @@ public class MainActivity extends TabActivity {
 		take_out.setId(R.id.take_out);
 		delivery.setText("Delivery");
 		delivery.setId(R.id.delivery);
-		//one.setText("One");
-		//two.setText("Two");
-		//three.setText("Three");
-		//four.setText("Four");
 		
 		types.addView(sit_down);
 		types.addView(take_out);
 		types.addView(delivery);
-		//types.addView(one);
-		//types.addView(two);
-		//types.addView(three);
-		//types.addView(four);
 	}
 	
 	private void setDeliveryType(int type, Restaurant r) {
@@ -168,12 +148,6 @@ public class MainActivity extends TabActivity {
 		}
 	}
 	
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.activity_main, menu);
-//        return true;
-//    }
-    
     class RestaurantAdapter extends ArrayAdapter<Restaurant> {
     	RestaurantAdapter() {
     		super(MainActivity.this, android.R.layout.simple_list_item_1, model);
@@ -196,36 +170,23 @@ public class MainActivity extends TabActivity {
     		
     		return(row);
     	}
-    	
-    	/*@Override
-    	public int getViewTypeCount() {
-    	    return model.size() < 3 ? model.size() : model.size() % 3;
-    	}
-
-    	@Override
-    	public int getItemViewType(int position) {
-    	    return position % 3;
-    	}*/
     }
     
     static class RestaurantHolder {
     	private TextView name = null;
     	private TextView address = null;
-    	//private TextView date = null;
     	private ImageView icon = null;
     	
     	RestaurantHolder(View row) {
     		name = (TextView)row.findViewById(R.id.title);
     		address = (TextView)row.findViewById(R.id.address);
-    		//date = (TextView)row.findViewById(R.id.date);
     		icon = (ImageView)row.findViewById(R.id.icon);
     	}
     	
     	void populateFrom(Restaurant r) {
     		name.setText(r.getName());
     		address.setText(r.getAddress());
-    		//date.setText(r.getDate());
-
+    		
     		if (r.getType().equals("sit_down")) {
     			icon.setImageResource(R.drawable.ball_red);
     			name.setTextColor(Color.RED);
@@ -249,7 +210,6 @@ public class MainActivity extends TabActivity {
     		name.setText(current.getName());
     		address.setText(current.getAddress());
     		notes.setText(current.getNotes());
-    		//date.setText(r.getDate());
     		
     		if (current.getType().equals("sit_down")) {
     			types.check(R.id.sit_down);
@@ -263,4 +223,28 @@ public class MainActivity extends TabActivity {
     	}
 	};
 	
+	private void doSomeLongWork(final int incr) {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				progress+=incr;
+				setProgress(progress);
+			}
+		});
+		
+		SystemClock.sleep(250);
+	}
+	
+	private Runnable longTask = new Runnable() {
+		public void run() {
+			for (int i = 0; i < 20; i++) {
+				doSomeLongWork(500);
+			}
+			
+			runOnUiThread(new Runnable() {
+				public void run() {
+					setProgressBarVisibility(false);
+				}
+			});
+		}
+	};
 }
