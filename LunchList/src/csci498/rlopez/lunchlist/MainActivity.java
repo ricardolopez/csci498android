@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.app.Activity;
 import android.app.TabActivity;
@@ -39,6 +40,7 @@ public class MainActivity extends TabActivity {
 	Restaurant current;
 	RadioGroup types;
 	int progress;
+	Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class MainActivity extends TabActivity {
         address = (EditText)findViewById(R.id.addr);
         notes = (EditText)findViewById(R.id.notes);
         types = (RadioGroup)findViewById(R.id.types);
+        handler = new Handler();
         
         Button save = (Button)findViewById(R.id.save);
         save.setOnClickListener(onSave);
@@ -224,7 +227,7 @@ public class MainActivity extends TabActivity {
 	};
 	
 	private void doSomeLongWork(final int incr) {
-		runOnUiThread(new Runnable() {
+		handler.post(new Runnable() {
 			public void run() {
 				progress+=incr;
 				setProgress(progress);
@@ -240,7 +243,7 @@ public class MainActivity extends TabActivity {
 				doSomeLongWork(500);
 			}
 			
-			runOnUiThread(new Runnable() {
+			handler.post(new Runnable() {
 				public void run() {
 					Toast.makeText(MainActivity.this, "DONE!", Toast.LENGTH_SHORT).show();
 					setProgressBarVisibility(false);
@@ -248,4 +251,6 @@ public class MainActivity extends TabActivity {
 			});
 		}
 	};
+	
+	
 }
