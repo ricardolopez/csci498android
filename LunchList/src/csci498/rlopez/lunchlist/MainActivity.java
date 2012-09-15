@@ -4,6 +4,7 @@ package csci498.rlopez.lunchlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,7 @@ public class MainActivity extends TabActivity {
 	RadioGroup types;
 	int progress;
 	Handler handler;
+	AtomicBoolean isActive;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MainActivity extends TabActivity {
         notes = (EditText)findViewById(R.id.notes);
         types = (RadioGroup)findViewById(R.id.types);
         handler = new Handler();
+        isActive = new AtomicBoolean(true);
         
         Button save = (Button)findViewById(R.id.save);
         save.setOnClickListener(onSave);
@@ -95,10 +98,7 @@ public class MainActivity extends TabActivity {
     		return(true);
     		
     	} else if (item.getItemId() == R.id.run){
-    		setProgressBarVisibility(true);
-    		progress = 0;
-    		
-    		new Thread(longTask).start();
+    		startWork();
     		
     		return(true);
     	}
@@ -239,18 +239,41 @@ public class MainActivity extends TabActivity {
 	
 	private Runnable longTask = new Runnable() {
 		public void run() {
-			for (int i = 0; i < 20; i++) {
-				doSomeLongWork(500);
+			for (int i = progress; i < 10000 && isActive.get(); i+=200) {
+				doSomeLongWork(200);
 			}
 			
-			handler.post(new Runnable() {
-				public void run() {
-					Toast.makeText(MainActivity.this, "DONE!", Toast.LENGTH_SHORT).show();
-					setProgressBarVisibility(false);
-				}
-			});
+			if (isActive.get()) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						setProgressBarVisibility(false);
+						progress = 0;
+					}
+				});
+			}
 		}
 	};
 	
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		isActive.set(false);
+	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		isActive.set(true);
+		
+		if (progress > 0) {
+			startWork();
+		}
+	}
+
+	public void startWork(){
+		setProgressBarVisibility(true);
+		new Thread(longTask).start();
+	}
 }
