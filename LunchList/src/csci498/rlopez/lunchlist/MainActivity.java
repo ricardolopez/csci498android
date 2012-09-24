@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.app.Activity;
+import android.app.ListActivity;
 import android.app.TabActivity;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -37,7 +38,7 @@ import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ViewFlipper;
 
-public class MainActivity extends TabActivity {
+public class MainActivity extends ListActivity {
 	Cursor model;
 	RestaurantAdapter adapter;
 	EditText name;
@@ -48,36 +49,16 @@ public class MainActivity extends TabActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        name = (EditText)findViewById(R.id.name);
-        address = (EditText)findViewById(R.id.addr);
-        notes = (EditText)findViewById(R.id.notes);
-        types = (RadioGroup)findViewById(R.id.types);
+
         helper = new RestaurantHelper(this);
-        
-        Button save = (Button)findViewById(R.id.save);
-        save.setOnClickListener(onSave);
-        
-        ListView list = (ListView)findViewById(R.id.restaurants);
         model = helper.getAll();
         startManagingCursor(model);
         adapter = new RestaurantAdapter(model);
-        list.setAdapter(adapter);
+        setListAdapter(adapter);
         
-        TabHost.TabSpec spec=getTabHost().newTabSpec("tag1");
-        spec.setContent(R.id.restaurants);
-        spec.setIndicator("List", getResources().getDrawable(R.drawable.list));
-        getTabHost().addTab(spec);
-        
-        spec=getTabHost().newTabSpec("tag2");
-        spec.setContent(R.id.details);
-        spec.setIndicator("Details", getResources().getDrawable(R.drawable.restaurant));
-        
-        getTabHost().addTab(spec);
-        getTabHost().setCurrentTab(0);
-        
-        list.setOnItemClickListener(onListClick);
     }
     
     @Override
@@ -86,43 +67,6 @@ public class MainActivity extends TabActivity {
     	return(super.onCreateOptionsMenu(menu));
     }
     
-    private View.OnClickListener onSave = new View.OnClickListener() {
-		public void onClick(View v) {
-			String type = null;
-			
-			switch(types.getCheckedRadioButtonId()) {
-			case R.id.sit_down:
-				type = "sit_down";
-				break;
-			case R.id.take_out:
-				type = "take_out";
-				break;
-			case R.id.delivery:
-				type = "delivery";
-				break;
-			}
-			
-			helper.insert(name.getText().toString(), address.getText().toString(), type, notes.getText().toString());
-			model.requery();
-		}
-	};
-	
-	private void setDeliveryType(int type, Restaurant r) {
-		switch (type) {
-		case R.id.sit_down:
-			r.setType("sit_down");
-			break;
-		
-		case R.id.take_out:
-			r.setType("take_out");
-			break;
-			
-		case R.id.delivery:
-			r.setType("delivery");
-			break;
-		}
-	}
-	
     class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
     		super(MainActivity.this, c);
