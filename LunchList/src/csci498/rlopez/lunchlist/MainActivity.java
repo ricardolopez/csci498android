@@ -39,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.ViewFlipper;
 
 public class MainActivity extends ListActivity {
+	
 	Cursor model;
 	RestaurantAdapter adapter;
 	EditText name;
@@ -46,6 +47,7 @@ public class MainActivity extends ListActivity {
 	EditText notes;
 	RadioGroup types;
 	RestaurantHelper helper;
+	public final static String ID_EXTRA = "csci498.rlopez.lunchlist._ID";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,17 @@ public class MainActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	new MenuInflater(this).inflate(R.menu.option, menu);
     	return(super.onCreateOptionsMenu(menu));
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	if (item.getItemId() == R.id.add) {
+    		startActivity(new Intent(MainActivity.this, DetailForm.class));
+    		
+    		return(true);
+    	}
+    	
+    	return(super.onOptionsItemSelected(item));
     }
     
     class RestaurantAdapter extends CursorAdapter {
@@ -124,7 +137,10 @@ public class MainActivity extends ListActivity {
     
     private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
     	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    		
     		Intent i = new Intent(MainActivity.this, DetailForm.class);
+    		i.putExtra(ID_EXTRA, String.valueOf(id));
+    		
     		startActivity(i);
     	}
 	};
