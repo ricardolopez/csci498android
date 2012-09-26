@@ -58,12 +58,10 @@ public class MainActivity extends ListActivity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         helper = new RestaurantHelper(this);
-        model = helper.getAll(prefs.getString("sort_order", "name"));
-        startManagingCursor(model);
-        adapter = new RestaurantAdapter(model);
-        setListAdapter(adapter);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        initList();
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
         
     }
     
@@ -71,6 +69,18 @@ public class MainActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	new MenuInflater(this).inflate(R.menu.option, menu);
     	return(super.onCreateOptionsMenu(menu));
+    }
+    
+    private void initList() {
+    	if (model != null) {
+    		stopManagingCursor(model);
+    		model.close();
+    	}
+    	
+    	model = helper.getAll(prefs.getString("sort_order", "name"));
+        startManagingCursor(model);
+        adapter = new RestaurantAdapter(model);
+        setListAdapter(adapter);
     }
     
     @Override
@@ -87,6 +97,17 @@ public class MainActivity extends ListActivity {
     	
     	return(super.onOptionsItemSelected(item));
     }
+    
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener = 
+    		new SharedPreferences.OnSharedPreferenceChangeListener() {
+				
+    	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+			if (key.equals("sort_order")) {
+				initList();
+			}
+					
+		}
+	};
     
     class RestaurantAdapter extends CursorAdapter {
 		RestaurantAdapter(Cursor c) {
