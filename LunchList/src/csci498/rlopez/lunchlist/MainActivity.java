@@ -9,15 +9,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.TabActivity;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.support.v4.widget.CursorAdapter;
+//import android.support.v4.widget.CursorAdapter;
 import android.content.Context;
 import android.content.Intent;
-//import android.widget.CursorAdapter;
+import android.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ViewFlipper;
+import android.content.SharedPreferences;
 
 public class MainActivity extends ListActivity {
 	
@@ -47,6 +49,7 @@ public class MainActivity extends ListActivity {
 	EditText notes;
 	RadioGroup types;
 	RestaurantHelper helper;
+	SharedPreferences prefs;
 	public final static String ID_EXTRA = "csci498.rlopez.lunchlist._ID";
 
     @Override
@@ -55,8 +58,9 @@ public class MainActivity extends ListActivity {
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         helper = new RestaurantHelper(this);
-        model = helper.getAll();
+        model = helper.getAll(prefs.getString("sort_order", "name"));
         startManagingCursor(model);
         adapter = new RestaurantAdapter(model);
         setListAdapter(adapter);

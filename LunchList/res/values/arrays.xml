@@ -2,15 +2,16 @@
 <resources>
 
     <string-array name="sort_names">
-        <item name="By Name, Ascending"/>
-        <item name="By Type"/>
-        <item name="By Address, Ascending"/>
-        <item name="By Address, Descending"/>
+        <item>By Name, Ascending</item>
+        <item>By Name, Descending</item>
+        <item>By Type</item>
+        <item>By Address, Ascending</item>
+        <item>By Address, Descending</item>
     </string-array>
     
     <string-array name="sort_clauses">
         <item>name ASC</item>
-        <item>name Desc</item>
+        <item>name DESC</item>
         <item>type, name ASC</item>
         <item>address ASC</item>
         <item>address DESC</item>
