@@ -75,6 +75,10 @@ public class MainActivity extends ListActivity {
     		startActivity(new Intent(MainActivity.this, DetailForm.class));
     		
     		return(true);
+    	} else if (item.getItemId() == R.id.prefs){
+    		startActivity(new Intent(this, EditPreferences.class));
+    		
+    		return(true);
     	}
     	
     	return(super.onOptionsItemSelected(item));
