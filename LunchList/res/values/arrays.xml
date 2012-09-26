@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sort_names">
+        <item name="By Name, Ascending"/>
+        <item name="By Type"/>
+        <item name="By Address, Ascending"/>
+        <item name="By Address, Descending"/>
+    </string-array>
+    
+    <string-array name="sort_clauses">
+        <item>name ASC</item>
+        <item>name Desc</item>
+        <item>type, name ASC</item>
+        <item>address ASC</item>
+        <item>address DESC</item>
+    </string-array>
+
+</resources>
