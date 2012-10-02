@@ -35,22 +35,24 @@
             </RadioGroup>
         </TableRow>
         
-        <TableRow>
-            <TextView android:text="Notes:" />
-            <EditText android:id="@+id/notes"
-                android:inputType="textMultiLine"
-                android:gravity="top"
-                android:lines="2"
-                android:scrollHorizontally="false"
-                android:maxLines="2"
-            />
-        </TableRow>
-        
-        <Button android:id="@+id/save"
+        <EditText
+            android:id="@+id/notes"
+            android:gravity="top"
+            android:hint="Notes"
+            android:inputType="textMultiLine"
+            android:lines="2"
+            android:maxLines="2"
+            android:scrollHorizontally="false" />
+
+        <EditText
+            android:id="@+id/feed"
+            android:hint="Feed URL" />
+
+       	<Button
+            android:id="@+id/save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save"
-        />
-        
-     </TableLayout>     
+            android:text="Save" />
+
+    </TableLayout>
 </ScrollView>
