@@ -1,21 +1,63 @@
 package csci498.rlopez.lunchlist;
 
-import org.mcsoxford.rss.RSSFeed;
-import org.mcsoxford.rss.RSSItem;
-import org.mcsoxford.rss.RSSReader;
-
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 import android.app.Activity;
 
-public class FeedActivity extends Activity {
+import org.mcsoxford.rss.RSSFeed;
+import org.mcsoxford.rss.RSSItem;
+import org.mcsoxford.rss.RSSReader;
 
+public class FeedActivity extends ListActivity {
+	
+	public static final String FEED_URL = "csci498.rlopez.lunchlist.FEED_URL";
+	private InstanceState state;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		
+		state = (InstanceState)getLastNonConfigurationInstance();
+		
+		if (state == null) {
+			state = new InstanceState();
+			state.task = new FeedTask(this);
+			state.task.execute(getIntent().getStringExtra(FEED_URL));
+		} else {
+			
+			if (state.task != null) {
+				state.task.attach(this);
+			}
+			
+			if (state.feed != null) {
+				setFeed(state.feed);
+			}
+		}
+	}
+	
+	@Override
+	public Object onRetainNonConfigurationInstance() {
+		if (state.task != null) {
+			state.task.detach();
+		}
+		
+		return(state);
+	}
+	
+	private void setFeed(RSSFeed feed) {
+		state.feed = feed;
+		setListAdapter(new FeedAdapter(feed));
+	}
+	
 	private void goBlooey(Throwable t) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		
@@ -25,7 +67,12 @@ public class FeedActivity extends Activity {
 			   .show();
 	}
 	
-	private static class FeedTask extends AsyncTask<String, Void, Void> {
+	private static class InstanceState {
+		RSSFeed feed;
+		FeedTask task;
+	}
+	
+	private static class FeedTask extends AsyncTask<String, Void, RSSFeed> {
 		
 		private RSSReader reader = new RSSReader();
 		private Exception e;
@@ -45,7 +92,7 @@ public class FeedActivity extends Activity {
 		
 		@Override
 		public RSSFeed doInBackground(String... urls) {
-			RSSFeed result;
+			RSSFeed result = null;
 			
 			try {
 				result = reader.load(urls[0]);
