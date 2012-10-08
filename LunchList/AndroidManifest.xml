@@ -26,6 +26,7 @@
         <activity android:name=".DetailForm"></activity>
         <activity android:name=".EditPreferences"></activity>
         <activity android:name=".FeedActivity"></activity>
+        <activity android:name=".FeedService"></activity>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
