@@ -13,8 +13,8 @@ import android.util.Log;
 
 public class FeedService extends IntentService {
 	
-	public static final String EXTRA_URL = "apt.tutorial.EXTRA_URL";
-	public static final String EXTRA_MESSENGER = "apt.tutorial.EXTRA_MESSENGER";
+	public static final String EXTRA_URL = "csci498.rlopez.lunchlist.EXTRA_URL";
+	public static final String EXTRA_MESSENGER = "csci498.rlopez.lunchlist.EXTRA_MESSENGER";
 	
 	public FeedService() {
 		super("FeedService");
@@ -35,6 +35,8 @@ public class FeedService extends IntentService {
 			
 		} catch (Exception e) {
 			Log.e("LunchList", "Exception parsing feed", e);
+			msg.arg1 = Activity.RESULT_CANCELED;
+			msg.obj = e;
 		}
 		
 		try {
