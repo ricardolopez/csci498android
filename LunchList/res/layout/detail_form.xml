@@ -35,6 +35,11 @@
             </RadioGroup>
         </TableRow>
         
+        <TableRow>
+            <TextView android:text="Location:" />
+            <TextView android:id="@+id/location" android:text="(not set)" />
+        </TableRow>
+        
         <EditText
             android:id="@+id/notes"
             android:gravity="top"

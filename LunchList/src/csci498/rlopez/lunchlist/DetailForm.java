@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,6 +23,7 @@ public class DetailForm extends Activity {
 	EditText notes;
 	EditText address;
 	RadioGroup types;
+	TextView location;
 	String restaurantId;
 	RestaurantHelper helper;
 	
@@ -39,9 +39,7 @@ public class DetailForm extends Activity {
 		notes = (EditText)findViewById(R.id.notes);
 		types = (RadioGroup)findViewById(R.id.types);
 		feed = (EditText)findViewById(R.id.feed);
-		
-		Button save = (Button)findViewById(R.id.save);
-		save.setOnClickListener(onSave);
+		location = (TextView)findViewById(R.id.location);
 		
 		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
 		
@@ -71,21 +69,20 @@ public class DetailForm extends Activity {
 		types.check(state.getInt("type"));
 	}
 	
-	private View.OnClickListener onSave = new View.OnClickListener() {
-		
-		public void onClick(View v) {
+	private void save() {
+		if (name.getText().toString().length() > 0) {
 			String type = null;
 			
 			switch (types.getCheckedRadioButtonId()) {
-				case R.id.sit_down:
-					type = "sit_down";
-					break;
-				case R.id.take_out:
-					type = "take_out";
-					break;
-				case R.id.delivery:
-					type = "delivery";
-					break;
+			case R.id.sit_down:
+				type = "sit_down";
+				break;
+			case R.id.take_out:
+				type = "take_out";
+				break;
+			default:
+				type = "delivery";
+				break;
 			}
 			
 			if (restaurantId == null) {
@@ -95,17 +92,21 @@ public class DetailForm extends Activity {
 							  notes.getText().toString(),
 							  feed.getText().toString());
 			} else {
-				helper.update(restaurantId, 
-							  name.getText().toString(), 
-							  address.getText().toString(), 
-							  type, 
-							  notes.getText().toString(),
-							  feed.getText().toString());
+				helper.update(restaurantId, name.getText().toString(),
+						  address.getText().toString(),
+						  type,
+						  notes.getText().toString(),
+						  feed.getText().toString());
 			}
-			
-			finish();
 		}
-	};
+	}
+	
+	@Override
+	public void onPause() {
+		save();
+		
+		super.onPause();
+	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -155,6 +156,9 @@ public class DetailForm extends Activity {
 		} else {
 			types.check(R.id.delivery);
 		}
+		
+		location.setText(String.valueOf(helper.getLatitude(c))+", "
+						 +String.valueOf(helper.getLongitude(c)));
 		
 		c.close();
 	}
