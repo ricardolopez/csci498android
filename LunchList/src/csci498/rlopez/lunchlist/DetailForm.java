@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ public class DetailForm extends Activity {
 	TextView location;
 	String restaurantId;
 	RestaurantHelper helper;
+	LocationManager locMgr;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,7 @@ public class DetailForm extends Activity {
 		types = (RadioGroup)findViewById(R.id.types);
 		feed = (EditText)findViewById(R.id.feed);
 		location = (TextView)findViewById(R.id.location);
+		locMgr = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
 		restaurantId = getIntent().getStringExtra(MainActivity.ID_EXTRA);
 		
@@ -104,8 +109,18 @@ public class DetailForm extends Activity {
 	@Override
 	public void onPause() {
 		save();
+		locMgr.removeUpdates(onLocationChange);
 		
 		super.onPause();
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (restaurantId == null) {
+			menu.findItem(R.id.location).setEnabled(false);
+		}
+		
+		return(super.onPrepareOptionsMenu(menu));
 	}
 	
 	@Override
@@ -126,6 +141,10 @@ public class DetailForm extends Activity {
 				Toast.makeText(this, "Connection currently unavailable", Toast.LENGTH_LONG).show();
 			}
 			
+			return(true);
+		} else if (item.getItemId() == R.id.location) {
+			
+			locMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, onLocationChange);
 			return(true);
 		}
 		
@@ -169,5 +188,29 @@ public class DetailForm extends Activity {
 		
 		helper.close();
 	}
+	
+	LocationListener onLocationChange = new LocationListener() {
+		public void onLocationChanged(Location fix) {
+			helper.updateLocation(restaurantId, fix.getLatitude(),
+											   fix.getLongitude());
+			location.setText(String.valueOf(fix.getLatitude())+", "+
+							 String.valueOf(fix.getLongitude()));
+			locMgr.removeUpdates(onLocationChange);
+			
+			Toast.makeText(DetailForm.this, "Location saved", Toast.LENGTH_LONG).show();
+		}
+		
+		public void onProviderDisabled(String provider) {
+			// TODO
+		}
+		
+		public void onProviderEnabled(String provider) {
+			// TODO
+		}
+		
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			// TODO
+		}
+	};
 	
 }
