@@ -14,6 +14,7 @@
         android:icon="@drawable/monster"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="com.google.android.maps" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
@@ -27,6 +28,7 @@
         <activity android:name=".EditPreferences"></activity>
         <activity android:name=".FeedActivity"></activity>
         <activity android:name=".FeedService"></activity>
+        <activity android:name=".RestaurantMap"></activity>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
