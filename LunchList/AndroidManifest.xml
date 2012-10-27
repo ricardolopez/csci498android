@@ -27,12 +27,20 @@
         <activity android:name=".DetailForm"></activity>
         <activity android:name=".EditPreferences"></activity>
         <activity android:name=".FeedActivity"></activity>
-        <activity android:name=".FeedService"></activity>
+        <activity android:name=".AlarmActivity"></activity>
         <activity android:name=".RestaurantMap"></activity>
+        <service android:name=".FeedService"></service>
+        <receiver android:name=".OnBootReceiver" android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".OnAlarmReceiver"></receiver>
     </application>
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 </manifest>
