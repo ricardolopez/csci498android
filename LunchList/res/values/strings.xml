@@ -8,5 +8,6 @@
     <string name="address">Address:</string>
     <string name="save">Save</string>
     <string name="type">Type:</string>
+    <string name="empty">No restaurants</string>
 
 </resources>
