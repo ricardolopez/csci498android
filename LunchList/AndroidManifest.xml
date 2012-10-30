@@ -32,6 +32,7 @@
         <activity android:name=".RestaurantMap"></activity>
         
         <service android:name=".FeedService"></service>
+        <service android:name=".WidgetService"></service>
         
         <receiver android:name=".OnBootReceiver" android:enabled="false">
             <intent-filter>
