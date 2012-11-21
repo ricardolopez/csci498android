@@ -19,6 +19,15 @@
         android:layout_span="2"
       />
     </TableRow>
+    
+    <TableRow>
+        <TextView android:text="Phone:" />
+        <EditText
+            android:id="@+id/phone"
+            android:layout_span="2"
+         />
+    </TableRow>
+    
     <TableRow>
       <TextView android:text="Type:" />
       <RadioGroup android:id="@+id/types">

@@ -15,6 +15,15 @@
       <TextView android:text="Address:" />
       <EditText android:id="@+id/addr" />
     </TableRow>
+    
+    <TableRow>
+        <TextView android:text="Phone:" />
+        <EditText 
+            android:id="@+id/phone" 
+            android:inputType="phone" 
+         />
+    </TableRow>
+    
     <TableRow>
       <TextView android:text="Type:" />
       <RadioGroup android:id="@+id/types">
